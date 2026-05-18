@@ -1,0 +1,6 @@
+name: MSEManager
+version: '${version}'
+
+main: com.matt5262.mSEManager.MSEManager
+api-version: '26.1.2'
+load: POSTWORLD
