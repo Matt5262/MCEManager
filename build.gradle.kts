@@ -12,6 +12,8 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
 }
 
+val apiVersion = "26.1"
+
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(25)
 }
@@ -26,7 +28,10 @@ tasks {
     }
 
     processResources {
-        val props = mapOf("version" to version)
+        val props = mapOf(
+            "version" to version,
+            "apiVersion" to apiVersion
+        )
         filesMatching("plugin.yml") {
             expand(props)
         }
