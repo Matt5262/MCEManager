@@ -1,1 +1,1 @@
-rootProject.name = "MSEManager"
+rootProject.name = "MCEManager"
