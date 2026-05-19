@@ -15,6 +15,8 @@ dependencies {
 val apiVersion = "26.1"
 
 java {
+    // Note: Project requires Java 25 for Paper 26.1.2 API compatibility.
+    // Ensure the Gradle JVM (Settings) is set to Java 24 to support the build runner.
     toolchain.languageVersion = JavaLanguageVersion.of(25)
 }
 
@@ -24,7 +26,13 @@ tasks {
         // This is the only required configuration besides applying the plugin.
         // Your plugin's jar (or shadowJar if present) will be used automatically.
         minecraftVersion("26.1.2")
-        jvmArgs("-Xms2G", "-Xmx2G")
+        
+        // Suppress terminal deprecation warnings for sun.misc.Unsafe (caused by JOML)
+        jvmArgs(
+            "-Xms2G", 
+            "-Xmx2G", 
+            "--add-opens=jdk.unsupported/sun.misc=ALL-UNNAMED"
+        )
     }
 
     processResources {

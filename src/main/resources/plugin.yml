@@ -1,5 +1,6 @@
 name: '${name}'
 version: '${version}'
+# noinspection PluginYml
 main: '${main}'
 api-version: '${apiVersion}'
 load: POSTWORLD
