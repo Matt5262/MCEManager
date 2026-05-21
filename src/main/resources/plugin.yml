@@ -7,3 +7,9 @@ load: POSTWORLD
 author: Matt5262
 description: A management plugin for Minecraft Events.
 website: https://github.com/Matt5262/MCEManager
+
+commands:
+    cts:
+        description: Create or manage spawnpoints.
+        usage: /cts <c <optionalName>>
+        aliases: [createtospawn]

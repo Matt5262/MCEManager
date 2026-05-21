@@ -1,8 +1,15 @@
 name: 'MCEManager'
 version: '0.0.0'
+# noinspection PluginYml
 main: 'com.matt5262.mcemanager.MCEManager'
 api-version: '26.1'
 load: POSTWORLD
 author: Matt5262
 description: A management plugin for Minecraft Events.
 website: https://github.com/Matt5262/MCEManager
+
+commands:
+    cts:
+        description: Create or manage spawnpoints.
+        usage: /cts <c <optionalName>>
+        aliases: [createtospawn]
