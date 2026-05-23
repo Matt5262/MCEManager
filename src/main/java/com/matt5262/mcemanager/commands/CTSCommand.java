@@ -1,50 +1,61 @@
 package com.matt5262.mcemanager.commands;
 
+import com.matt5262.mcemanager.gui.CTSManagerGUI;
+import com.matt5262.mcemanager.storage.SpawnStorage;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.Location;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class CTSCommand implements CommandExecutor {
 
-    public void sendUsage(Player player) {
-        player.sendMessage(Component.text("Invalid usage. Use: /cts c <optionalName>").color(NamedTextColor.RED));
+    private static int spawnCounter = 0;
 
+    CTSManagerGUI gui = new CTSManagerGUI();
+
+    public void sendUsage(Player player) {
+        player.sendMessage(Component.text("Usage: /cts c <optionalName>").color(NamedTextColor.RED));
     }
 
-
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("This command can only be run by a player."));
+            sender.sendMessage("Only players can use this.");
             return true;
         }
 
-        // If no arguments are provided, open the management menu
+        // /cts
         if (args.length == 0) {
-            // menu logic would go here
-            player.sendMessage(Component.text("Opening the management menu...").color(NamedTextColor.YELLOW));
+            gui.open(player, 0);
+            player.sendMessage(Component.text("Opening CTS Manager...").color(NamedTextColor.YELLOW));
             return true;
         }
 
-        String subCommand = args[0].toLowerCase();
+        if (args[0].equalsIgnoreCase("c")) {
 
-        if (subCommand.equals("c")) {
-            switch (args.length) {
-                case 1:
-                    player.sendMessage(Component.text("Creating spawnpoint at your location...").color(NamedTextColor.GREEN));
-                    break;
+            String name;
 
-                case 2:
-                    player.sendMessage(Component.text("Creating spawnpoint '" + args[1] + "' at your location...").color(NamedTextColor.GREEN));
-                    break;
-
-                default:
-                    sendUsage(player);
+            if (args.length == 1) {
+                spawnCounter++;
+                name = "Spawn #" + spawnCounter;
+            } else if (args.length == 2) {
+                name = args[1];
+            } else {
+                sendUsage(player);
+                return true;
             }
+
+            Location loc = player.getLocation();
+
+            SpawnStorage.saveSpawn(name, loc);
+
+            player.sendMessage(
+                    Component.text("Created spawn: " + name).color(NamedTextColor.GREEN)
+            );
+
             return true;
         }
 
